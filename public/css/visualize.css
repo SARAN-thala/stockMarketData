@@ -3,9 +3,20 @@
 }
 
 .container svg {
-    border: 1px solid blue;
+    border: 1px solid grey;
 }
 
 .container circle {
     stroke: blue;
+}
+
+.domain{
+    stroke: grey;
+    stroke-width: 1px;
+}
+path{
+    fill: none;
+    stroke: steelblue;
+    stroke-width: 3px;
+    /*shape-rendering: crispEdges;*/
 }
