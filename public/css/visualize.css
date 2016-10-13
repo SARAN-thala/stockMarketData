@@ -1,0 +1,11 @@
+.container {
+    border: 1px solid black;
+}
+
+.container svg {
+    border: 1px solid blue;
+}
+
+.container circle {
+    stroke: blue;
+}
