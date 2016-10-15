@@ -10,6 +10,9 @@ const WIDTH = 1420;
 const HEIGHT = 650;
 const MARGIN = 50;
 
+const INNER_WIDTH = WIDTH - (2 * MARGIN);
+const INNER_HEIGHT = HEIGHT - (2 * MARGIN);
+
 const loadChart = function (quotes) {
 
     let svg = d3.select('.container').append('svg')
@@ -28,11 +31,11 @@ const loadChart = function (quotes) {
 
     let xScale = d3.scaleTime()
         .domain(dateRange)
-        .range([0, WIDTH - (2 * MARGIN)]);
+        .range([0, INNER_WIDTH]);
 
     let yScale = d3.scaleLinear()
         .domain(priceRange)
-        .range([HEIGHT - (2 * MARGIN), 0]);
+        .range([INNER_HEIGHT, 0]);
 
     let xAxis = d3.axisBottom(xScale);
     let yAxis = d3.axisLeft(yScale).ticks(10);
@@ -42,25 +45,45 @@ const loadChart = function (quotes) {
 
     svg.append('g')
         .attr('transform', `translate(${MARGIN - 10}, ${HEIGHT - MARGIN})`)
-        .call(xAxis);
+        .call(xAxis)
+        .classed('xAxis', true);
+
+    svg.selectAll('.xAxis .tick')
+        .append('line')
+        .attr('x1', 0.5)
+        .attr('y1', 0)
+        .attr('x2', 0.5)
+        .attr('y2', -INNER_HEIGHT)
+        .classed('grid', true);
 
     svg.append('g')
         .attr('transform', `translate(${MARGIN - 10}, ${MARGIN})`)
-        .call(yAxis);
+        .call(yAxis)
+        .classed('yAxis', true);
+
+    svg.selectAll('.yAxis .tick')
+        .append('line')
+        .attr('x1', 0)
+        .attr('y1', 0.5)
+        .attr('x2', INNER_WIDTH)
+        .attr('y2', 0.5)
+        .classed('grid', true);
 
     //--line--
-    let path = g.append('path');
+    // let path = g.append('path');
 
     let line = d3.line()
         .x(q => (xScale(q['Date'])))
         .y(q => (yScale(q['Close Price'])));
 
-    path.attr('d',line(quotes));
+    g.append('path')
+        .classed('closed-price', true)
+        .attr('d', line(quotes));
 
     //--circle---
     g.selectAll('circle').data(quotes)
         .enter().append('circle')
-        .attr('r', 4)
+        .attr('r', 2)
         .append('title').text(q => (`Date: ${q['Date'].toISOString().split('T')[0]},
 Price: ${q['Close Price']}`));
 

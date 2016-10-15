@@ -10,13 +10,18 @@
     stroke: blue;
 }
 
-.domain{
+.domain {
     stroke: grey;
     stroke-width: 1px;
 }
-path{
+
+.closed-price {
     fill: none;
     stroke: steelblue;
-    stroke-width: 3px;
+    stroke-width: 2px;
     /*shape-rendering: crispEdges;*/
+}
+
+.grid {
+    stroke: lightgrey;
 }
